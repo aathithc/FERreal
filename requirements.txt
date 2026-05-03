@@ -1,0 +1,14 @@
+torch
+torchvision
+transformers
+timm
+scikit-learn
+pyyaml
+matplotlib
+seaborn
+numpy
+pandas
+tqdm
+kaggle
+jupyter
+ipykernel

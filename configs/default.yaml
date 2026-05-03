@@ -1,0 +1,34 @@
+# -----------------------------------------------------------------
+# FER-2013 default training configuration
+# Override any value via a model-specific YAML or CLI flags.
+# -----------------------------------------------------------------
+
+# Data
+data_root: "data/fer2013"
+image_size: 48          # 48 for CNN/SimpleCNN; set 224 for ResNet/ViT
+channels: 1             # 1 for grayscale models; 3 for pretrained ImageNet models
+num_workers: 4
+
+# Imbalance handling
+use_weighted_sampler: true   # WeightedRandomSampler on training set
+use_class_weights: true      # Weighted CrossEntropyLoss
+
+# Training
+batch_size: 64
+epochs: 50
+seed: 42
+
+# Optimizer (AdamW)
+lr: 3.0e-4
+weight_decay: 1.0e-4
+
+# Scheduler
+scheduler: cosine     # options: cosine | step | onecycle
+lr_step_size: 10      # used only when scheduler=step
+lr_gamma: 0.1         # used only when scheduler=step
+
+# Early stopping (set to 0 to disable)
+early_stopping_patience: 10
+
+# Checkpointing
+checkpoint_dir: "checkpoints"
