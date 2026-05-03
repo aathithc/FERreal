@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Downloads the FER-2013 dataset from Kaggle and unpacks it into data/fer2013/.
-# Requires the Kaggle CLI and a valid ~/.kaggle/kaggle.json API key.
-# See README.md for setup instructions.
+# Supports both ~/.kaggle/kaggle.json and ~/.kaggle/access_token formats.
 
 set -euo pipefail
 
@@ -12,9 +11,12 @@ if ! command -v kaggle &>/dev/null; then
     exit 1
 fi
 
-if [ ! -f "$HOME/.kaggle/kaggle.json" ]; then
-    echo "Error: Kaggle API key not found at ~/.kaggle/kaggle.json"
-    echo "Go to https://www.kaggle.com/settings -> API -> Create New Token"
+if [ -f "$HOME/.kaggle/access_token" ]; then
+    export KAGGLE_API_TOKEN="$(cat "$HOME/.kaggle/access_token")"
+elif [ ! -f "$HOME/.kaggle/kaggle.json" ]; then
+    echo "Error: No Kaggle credentials found."
+    echo "Save your token to ~/.kaggle/access_token or ~/.kaggle/kaggle.json"
+    echo "Get your token at: https://www.kaggle.com/settings -> API"
     exit 1
 fi
 
