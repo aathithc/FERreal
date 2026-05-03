@@ -1,20 +1,24 @@
 import torch.nn as nn
+import timm
 
 
 class ViTFER(nn.Module):
-    """Vision Transformer wrapper for FER-2013.
+    """ViT-Base/16 fine-tuned for FER-2013 via timm.
 
-    Suggested implementation options:
-        A) timm: timm.create_model('vit_base_patch16_224', pretrained=True, num_classes=num_classes)
-        B) HuggingFace transformers: ViTForImageClassification.from_pretrained(
-               'google/vit-base-patch16-224-in21k', num_labels=num_classes)
+    Input:  (B, 3, 224, 224) — use channels=3, image_size=224 in config
+    Output: (B, num_classes) logits
 
-    Input expects 3-channel images at 224x224 (use channels=3, image_size=224 in config).
+    Uses vit_base_patch16_224 pretrained on ImageNet-21k then fine-tuned on
+    ImageNet-1k. The classification head is replaced with a new Linear layer.
     """
 
     def __init__(self, num_classes: int = 7):
         super().__init__()
-        raise NotImplementedError("Implement ViTFER wrapper")
+        self.model = timm.create_model(
+            "vit_base_patch16_224",
+            pretrained=True,
+            num_classes=num_classes,
+        )
 
     def forward(self, x):
-        raise NotImplementedError
+        return self.model(x)

@@ -143,39 +143,6 @@ print_results(results)
 
 ---
 
-## Using Claude Code to implement your model
-
-Each teammate can use Claude Code to implement their stub file. Install it once:
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-Then authenticate — no manual API key needed if you have a Claude.ai account:
-
-```bash
-claude   # opens browser login on first run
-```
-
-If your team is using an Anthropic API key directly instead:
-
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...   # add to ~/.zshrc or ~/.bashrc to persist
-claude
-```
-
-Once authenticated, open Claude Code inside the repo:
-
-```bash
-cd FERreal
-claude
-```
-
-Then just describe what you need, e.g.:
-> "Implement the ResNetFER class in src/models/resnet.py — load pretrained ResNet-50 from torchvision, replace the fc layer with num_classes outputs, and add an option to freeze early layers"
-
----
-
 ## Project Structure
 
 ```
