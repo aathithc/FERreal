@@ -1,9 +1,16 @@
 # FER-2013: CNNs vs Vision Transformers
 
-Comparing CNN and ViT architectures on the [FER-2013](https://www.kaggle.com/datasets/msambare/fer2013) facial expression recognition benchmark.
+Comparing CNN and ViT architectures on the FER-2013 facial expression recognition benchmark.
 
-**Dataset:** 48×48 grayscale images, 7 emotion classes, ~35k images.  
-**Classes:** angry, disgust, fear, happy, neutral, sad, surprise.
+## Dataset
+
+**Source:** [https://www.kaggle.com/datasets/msambare/fer2013](https://www.kaggle.com/datasets/msambare/fer2013)  
+**Kaggle slug:** `msambare/fer2013` (this is what the download script uses — do not substitute another FER-2013 upload)
+
+- 48×48 grayscale face images
+- 7 emotion classes: angry, disgust, fear, happy, neutral, sad, surprise
+- ~35,000 images with a predefined train/test split
+- Class-imbalanced: disgust is only ~1.5% of the training set (handled automatically via weighted sampling)
 
 ## Team
 
@@ -130,6 +137,39 @@ results = evaluate_model(model, val_loader, device, class_names)
 print_results(results)
 # Returns: accuracy, per-class precision/recall/F1, confusion matrix
 ```
+
+---
+
+## Using Claude Code to implement your model
+
+Each teammate can use Claude Code to implement their stub file. Install it once:
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+Then authenticate — no manual API key needed if you have a Claude.ai account:
+
+```bash
+claude   # opens browser login on first run
+```
+
+If your team is using an Anthropic API key directly instead:
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...   # add to ~/.zshrc or ~/.bashrc to persist
+claude
+```
+
+Once authenticated, open Claude Code inside the repo:
+
+```bash
+cd FERreal
+claude
+```
+
+Then just describe what you need, e.g.:
+> "Implement the ResNetFER class in src/models/resnet.py — load pretrained ResNet-50 from torchvision, replace the fc layer with num_classes outputs, and add an option to freeze early layers"
 
 ---
 
