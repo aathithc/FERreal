@@ -44,33 +44,35 @@ pip install -r requirements.txt
 
 ### 2. Get your Kaggle API key
 
-Everyone needs their own free Kaggle account and API key — it only takes 2 minutes.
+Everyone needs their own free Kaggle account and API key — takes about 2 minutes.
 
 1. Create a free account at [kaggle.com](https://www.kaggle.com) if you don't have one
-2. Go to [kaggle.com/settings](https://www.kaggle.com/settings) → scroll to **API** section → click **Create New Token**
-3. This downloads a file called `kaggle.json` to your computer
-4. Move it to the right place:
+2. Go to [kaggle.com/settings](https://www.kaggle.com/settings) → scroll to **API** → click **Create New Token**
+3. Kaggle will show you a token string (starts with something like `abc123...`)
+4. Save it with these commands — paste your actual token where shown:
 
 **Mac/Linux:**
 ```bash
 mkdir -p ~/.kaggle
-mv ~/Downloads/kaggle.json ~/.kaggle/kaggle.json
-chmod 600 ~/.kaggle/kaggle.json   # keeps the file private
+chmod 700 ~/.kaggle
+echo "your_token_here" > ~/.kaggle/access_token
+chmod 600 ~/.kaggle/access_token
 ```
 
 **Windows (PowerShell):**
 ```powershell
-mkdir $env:USERPROFILE\.kaggle
-move $env:USERPROFILE\Downloads\kaggle.json $env:USERPROFILE\.kaggle\kaggle.json
+mkdir $env:USERPROFILE\.kaggle -Force
+"your_token_here" | Out-File $env:USERPROFILE\.kaggle\access_token -Encoding ascii
 ```
 
-> The `kaggle.json` file contains your personal API credentials — never commit it to git (it's already in `.gitignore`).
+> Never share your token or commit it to git — it's a personal credential tied to your account.
 
 ---
 
-### 3. Download the dataset
+### 3. Install the Kaggle CLI and download the dataset
 
 ```bash
+pip install kaggle
 bash scripts/download_data.sh
 ```
 
@@ -93,8 +95,9 @@ data/fer2013/
 
 **Troubleshooting:**
 - `kaggle: command not found` — run `pip install kaggle` first
-- `401 Unauthorized` — your `kaggle.json` is missing or in the wrong place; re-check step 2
-- `403 Forbidden` — you need to accept the dataset rules: go to the [dataset page](https://www.kaggle.com/datasets/msambare/fer2013) and click **Download** once in the browser to accept terms
+- `401 Unauthorized` — token is missing or wrong; redo step 2
+- `permission denied` on `~/.kaggle/access_token` — run `chmod 700 ~/.kaggle` first, then retry
+- `403 Forbidden` — go to the [dataset page](https://www.kaggle.com/datasets/msambare/fer2013) and click **Download** once in the browser to accept the license terms
 
 ---
 
