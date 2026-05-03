@@ -16,25 +16,50 @@ Comparing CNN and ViT architectures on the [FER-2013](https://www.kaggle.com/dat
 
 ---
 
-## Setup
+## Setup (do this once, each teammate individually)
 
 ### 1. Clone and install dependencies
 
 ```bash
-git clone <repo-url>
-cd fer-project
+git clone https://github.com/aathithc/FERreal.git
+cd FERreal
 pip install -r requirements.txt
 ```
 
-### 2. Configure Kaggle API key
+> **Tip:** Use a virtual environment to avoid dependency conflicts:
+> ```bash
+> python -m venv venv
+> source venv/bin/activate   # Windows: venv\Scripts\activate
+> pip install -r requirements.txt
+> ```
 
-1. Go to [kaggle.com/settings](https://www.kaggle.com/settings) → **API** → **Create New Token**
-2. Move the downloaded file:
-   ```bash
-   mkdir -p ~/.kaggle
-   mv ~/Downloads/kaggle.json ~/.kaggle/kaggle.json
-   chmod 600 ~/.kaggle/kaggle.json
-   ```
+---
+
+### 2. Get your Kaggle API key
+
+Everyone needs their own free Kaggle account and API key — it only takes 2 minutes.
+
+1. Create a free account at [kaggle.com](https://www.kaggle.com) if you don't have one
+2. Go to [kaggle.com/settings](https://www.kaggle.com/settings) → scroll to **API** section → click **Create New Token**
+3. This downloads a file called `kaggle.json` to your computer
+4. Move it to the right place:
+
+**Mac/Linux:**
+```bash
+mkdir -p ~/.kaggle
+mv ~/Downloads/kaggle.json ~/.kaggle/kaggle.json
+chmod 600 ~/.kaggle/kaggle.json   # keeps the file private
+```
+
+**Windows (PowerShell):**
+```powershell
+mkdir $env:USERPROFILE\.kaggle
+move $env:USERPROFILE\Downloads\kaggle.json $env:USERPROFILE\.kaggle\kaggle.json
+```
+
+> The `kaggle.json` file contains your personal API credentials — never commit it to git (it's already in `.gitignore`).
+
+---
 
 ### 3. Download the dataset
 
@@ -42,27 +67,42 @@ pip install -r requirements.txt
 bash scripts/download_data.sh
 ```
 
-This downloads and unpacks FER-2013 to `data/fer2013/` with the layout:
+This downloads and unpacks FER-2013 to `data/fer2013/` (~60 MB). The `data/` folder is gitignored — everyone downloads their own local copy.
+
+Expected layout after download:
 ```
 data/fer2013/
 ├── train/
 │   ├── angry/
 │   ├── disgust/
-│   └── ...
+│   ├── fear/
+│   ├── happy/
+│   ├── neutral/
+│   ├── sad/
+│   └── surprise/
 └── test/
-    ├── angry/
-    └── ...
+    └── (same structure)
 ```
+
+**Troubleshooting:**
+- `kaggle: command not found` — run `pip install kaggle` first
+- `401 Unauthorized` — your `kaggle.json` is missing or in the wrong place; re-check step 2
+- `403 Forbidden` — you need to accept the dataset rules: go to the [dataset page](https://www.kaggle.com/datasets/msambare/fer2013) and click **Download** once in the browser to accept terms
 
 ---
 
 ## Training
 
+Run from the repo root:
+
 ```bash
-# Train the ResNet model with default config
+# SimpleCNN (grayscale 48x48 — default config)
+python -m src.training.train --config configs/default.yaml --model simple_cnn
+
+# ResNet-50 (needs 224x224 RGB — edit image_size and channels in config first)
 python -m src.training.train --config configs/default.yaml --model resnet
 
-# Train ViT (needs 224×224 input — override image_size and channels)
+# ViT (same 224x224 RGB requirement as ResNet)
 python -m src.training.train --config configs/default.yaml --model vit
 ```
 
@@ -96,7 +136,7 @@ print_results(results)
 ## Project Structure
 
 ```
-fer-project/
+FERreal/
 ├── configs/default.yaml        # Shared training config
 ├── src/
 │   ├── data/
