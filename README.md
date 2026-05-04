@@ -105,6 +105,8 @@ data/fer2013/
 
 > **GPU required.** Approximate runtimes on a T4: SimpleCNN ~10 min · ResNet-50 ~45 min · ViT ~90 min.
 
+Optional: run `python scripts/verify_setup.py` first to confirm GPU, dependencies, and data are all in place before training.
+
 ### Option A — run everything at once
 
 ```bash
