@@ -30,7 +30,12 @@ def _build_dataloaders(cfg: dict) -> tuple[DataLoader, DataLoader, list[str]]:
     eval_tf = get_eval_transforms(image_size, channels)
 
     train_ds = FER2013Dataset(data_root, split="train", transform=train_tf)
-    val_ds = FER2013Dataset(data_root, split="test", transform=eval_tf)
+    # CSV mode: use PublicTest as val, PrivateTest stays held out for final eval.
+    # Folder mode: falls back to "test" (no proper held-out set available).
+    try:
+        val_ds = FER2013Dataset(data_root, split="val", transform=eval_tf)
+    except ValueError:
+        val_ds = FER2013Dataset(data_root, split="test", transform=eval_tf)
 
     if cfg.get("use_weighted_sampler", False):
         counts = train_ds.get_class_counts()
