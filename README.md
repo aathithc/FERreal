@@ -105,6 +105,10 @@ data/fer2013/
 
 > **GPU required.** Approximate runtimes on a T4: SimpleCNN ~10 min · ResNet-50 ~45 min · ViT ~90 min.
 
+### Running on Colab (recommended for overnight runs)
+
+Open `notebooks/FERreal_train.ipynb` directly in Colab via File → Open notebook → GitHub tab → paste this repo's URL. Set Runtime → GPU, then run cells in order. The notebook handles Drive mounting, data download, training all 3 models sequentially, and figure generation. Estimated runtime: ~5-7 hours on a T4 GPU.
+
 Optional: run `python scripts/verify_setup.py` first to confirm GPU, dependencies, and data are all in place before training.
 
 ### Option A — run everything at once

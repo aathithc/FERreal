@@ -194,7 +194,7 @@ def main():
     print()
     if all_passed:
         print("✅ All checks passed! Ready to train.")
-        print("\nNext step: python scripts/run_full_pipeline.py")
+        print("\nNext step: bash scripts/train_all.sh (or open notebooks/FERreal_train.ipynb on Colab)")
     else:
         print("⚠️  Some checks failed. Please fix issues above before training.")
     
