@@ -7,6 +7,7 @@ The --model flag must match a key in MODEL_REGISTRY (defined in src/models/__ini
 """
 
 import argparse
+import csv
 import time
 from pathlib import Path
 
@@ -183,17 +184,42 @@ def train(model_name: str, cfg: dict) -> None:
                 print(f"Early stopping after {epoch} epochs (no improvement for {patience} epochs).")
                 break
 
+        # --- per-epoch CSV log ---
+        log_dir  = Path("results") / model_name
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_path = log_dir / "training_log.csv"
+        write_header = not log_path.exists()
+        with open(log_path, "a", newline="") as f:
+            writer = csv.writer(f)
+            if write_header:
+                writer.writerow(["epoch", "train_loss", "train_acc", "val_loss", "val_acc", "lr"])
+            writer.writerow([
+                epoch,
+                round(train_loss / train_total, 6),
+                round(train_acc, 6),
+                round(val_loss / val_total, 6),
+                round(val_acc, 6),
+                optimizer.param_groups[0]["lr"],
+            ])
+
     print(f"\nTraining complete. Best val accuracy: {best_val_acc*100:.2f}%")
 
 
 def main():
     parser = argparse.ArgumentParser(description="Train a FER-2013 model")
-    parser.add_argument("--config", default="configs/default.yaml", help="Path to YAML config")
-    parser.add_argument("--model", required=True, choices=list(MODEL_REGISTRY.keys()), help="Model to train")
+    parser.add_argument("--config",     default="configs/default.yaml", help="Path to YAML config")
+    parser.add_argument("--model",      required=True, choices=list(MODEL_REGISTRY.keys()))
+    parser.add_argument("--image-size", type=int, default=None, help="Override image_size in config")
+    parser.add_argument("--channels",   type=int, default=None, choices=[1, 3], help="Override channels in config")
     args = parser.parse_args()
 
     with open(args.config) as f:
         cfg = yaml.safe_load(f)
+
+    if args.image_size is not None:
+        cfg["image_size"] = args.image_size
+    if args.channels is not None:
+        cfg["channels"] = args.channels
 
     train(args.model, cfg)
 

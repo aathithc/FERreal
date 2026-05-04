@@ -4,22 +4,22 @@ Comparing CNN and ViT architectures on the FER-2013 facial expression recognitio
 
 ## Dataset
 
-**Source:** [https://www.kaggle.com/datasets/msambare/fer2013](https://www.kaggle.com/datasets/msambare/fer2013)  
-**Kaggle slug:** `msambare/fer2013` (this is what the download script uses — do not substitute another FER-2013 upload)
+**Source:** [https://www.kaggle.com/datasets/deadskull7/fer2013](https://www.kaggle.com/datasets/deadskull7/fer2013)  
+**Kaggle slug:** `deadskull7/fer2013` — CSV version with proper 3-way split. Do **not** substitute `msambare/fer2013` (that version merges PublicTest+PrivateTest into one folder, making held-out evaluation impossible).
 
 - 48×48 grayscale face images
-- 7 emotion classes: angry, disgust, fear, happy, neutral, sad, surprise
-- ~35,000 images with a predefined train/test split
+- 7 emotion classes: angry, disgust, fear, happy, sad, surprise, neutral
+- Splits: train=28,709 · val (PublicTest)=3,589 · test (PrivateTest)=3,589
 - Class-imbalanced: disgust is only ~1.5% of the training set (handled automatically via weighted sampling)
 
 ## Team
 
-| Name | Model |
-|------|-------|
-| TBD  | SimpleCNN (baseline) |
-| TBD  | ResNet-50 |
-| TBD  | Vision Transformer (ViT) |
-| TBD  | Evaluation & interpretability |
+| Name | Role |
+|------|------|
+| Aathith Chandra  | SimpleCNN baseline, repo setup |
+| Pranav Nair      | Interpretability (GradCAM, attention rollout) |
+| Aditya Modi      | Dataset pipeline, evaluation |
+| Nishanth Thummala | ResNet-50 / ViT, results analysis |
 
 ---
 
@@ -97,26 +97,47 @@ data/fer2013/
 - `kaggle: command not found` — run `pip install kaggle` first
 - `401 Unauthorized` — token is missing or wrong; redo step 2
 - `permission denied` on `~/.kaggle/access_token` — run `chmod 700 ~/.kaggle` first, then retry
-- `403 Forbidden` — go to the [dataset page](https://www.kaggle.com/datasets/msambare/fer2013) and click **Download** once in the browser to accept the license terms
+- `403 Forbidden` — go to the [dataset page](https://www.kaggle.com/datasets/deadskull7/fer2013) and click **Download** once in the browser to accept the license terms
 
 ---
 
-## Training
+## Reproducing the report
 
-Run from the repo root:
+> **GPU required.** Approximate runtimes on a T4: SimpleCNN ~10 min · ResNet-50 ~45 min · ViT ~90 min.
+
+### Option A — run everything at once
 
 ```bash
-# SimpleCNN (grayscale 48x48 — default config)
-python -m src.training.train --config configs/default.yaml --model simple_cnn
+bash scripts/train_all.sh
+```
 
-# ResNet-50 (needs 224x224 RGB — edit image_size and channels in config first)
-python -m src.training.train --config configs/default.yaml --model resnet
+This trains all three models, writes `results/{model}/metrics.json` and `results/{model}/training_log.csv`, then generates all figures to `results/figures/`.
 
-# ViT (same 224x224 RGB requirement as ResNet)
-python -m src.training.train --config configs/default.yaml --model vit
+### Option B — step by step
+
+```bash
+# 1. Download dataset (once per machine)
+bash scripts/download_data.sh
+
+# 2. Train each model (image_size and channels are set automatically)
+python -m src.training.train --config configs/default.yaml --model simple_cnn --image-size 48  --channels 1
+python -m src.training.train --config configs/default.yaml --model resnet     --image-size 224 --channels 3
+python -m src.training.train --config configs/default.yaml --model vit        --image-size 224 --channels 3
+
+# 3. Evaluate on held-out PrivateTest split → results/{model}/metrics.json
+python scripts/finalize_results.py --model simple_cnn --checkpoint checkpoints/simple_cnn/best.pt
+python scripts/finalize_results.py --model resnet     --checkpoint checkpoints/resnet/best.pt
+python scripts/finalize_results.py --model vit        --checkpoint checkpoints/vit/best.pt
+
+# 4. Generate report figures → results/figures/*.pdf
+python scripts/generate_figures.py
+python scripts/generate_saliency_grid.py
 ```
 
 Each model saves its best checkpoint to `checkpoints/<model_name>/best.pt`.
+Per-epoch metrics are logged to `results/<model_name>/training_log.csv` automatically during training.
+
+## Training
 
 ### Key config options (`configs/default.yaml`)
 
@@ -154,19 +175,23 @@ FERreal/
 │   │   └── transforms.py       # Train / eval augmentation pipelines
 │   ├── models/
 │   │   ├── __init__.py         # MODEL_REGISTRY — register your model here
-│   │   ├── simple_cnn.py       # Stub: custom CNN baseline
-│   │   ├── resnet.py           # Stub: ResNet-50 wrapper
-│   │   └── vit.py              # Stub: ViT wrapper
+│   │   ├── simple_cnn.py       # Custom CNN baseline (4 conv blocks)
+│   │   ├── resnet.py           # ResNet-50 fine-tuned from ImageNet
+│   │   └── vit.py              # ViT-B/16 fine-tuned via timm
 │   ├── training/
-│   │   ├── train.py            # Generic training loop (CLI entry point)
+│   │   ├── train.py            # Training loop — logs to results/{model}/training_log.csv
 │   │   └── utils.py            # set_seed, checkpointing, class weights
 │   ├── evaluation/
 │   │   └── evaluate.py         # Metrics: accuracy, per-class F1, confusion matrix
 │   └── interpretability/
-│       ├── gradcam.py          # Stub: Grad-CAM for CNNs
-│       └── attention_maps.py   # Stub: attention rollout for ViT
+│       ├── gradcam.py          # Grad-CAM for CNN models
+│       └── attention_maps.py   # Attention rollout for ViT
 ├── notebooks/
 │   └── 01_data_exploration.ipynb
 └── scripts/
-    └── download_data.sh
+    ├── download_data.sh        # Download FER-2013 CSV from Kaggle
+    ├── train_all.sh            # Train all 3 models end-to-end
+    ├── finalize_results.py     # Eval on PrivateTest → results/{model}/metrics.json
+    ├── generate_figures.py     # Training curves, confusion matrices, F1 bar chart
+    └── generate_saliency_grid.py  # GradCAM / attention maps + failure cases
 ```
