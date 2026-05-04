@@ -1,0 +1,81 @@
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:424: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+/usr/local/lib/python3.12/dist-packages/torch/utils/data/dataloader.py:432: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  self.check_worker_number_rationality()
+Device: cuda
+Classes (7): ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+Train: 28709 | Val: 3589
+Epoch 001/50 | Train loss 1.3302 acc 15.60% | Val loss 2.5702 acc 5.71% | 28.1s
+  -> Saved best checkpoint (val_acc=5.71%)
+Epoch 002/50 | Train loss 1.0866 acc 24.41% | Val loss 1.8559 acc 27.67% | 26.3s
+  -> Saved best checkpoint (val_acc=27.67%)
+Epoch 003/50 | Train loss 0.9294 acc 33.36% | Val loss 1.6400 acc 38.06% | 24.9s
+  -> Saved best checkpoint (val_acc=38.06%)
+Epoch 004/50 | Train loss 0.8498 acc 39.05% | Val loss 1.6606 acc 37.45% | 25.8s
+Epoch 005/50 | Train loss 0.7831 acc 43.68% | Val loss 1.4691 acc 44.02% | 26.0s
+  -> Saved best checkpoint (val_acc=44.02%)
+Epoch 006/50 | Train loss 0.7343 acc 46.50% | Val loss 1.9406 acc 35.97% | 24.1s
+Epoch 007/50 | Train loss 0.6793 acc 49.26% | Val loss 1.4339 acc 47.92% | 25.5s
+  -> Saved best checkpoint (val_acc=47.92%)
+Epoch 008/50 | Train loss 0.6596 acc 50.65% | Val loss 1.3345 acc 49.32% | 25.9s
+  -> Saved best checkpoint (val_acc=49.32%)
+Epoch 009/50 | Train loss 0.6344 acc 51.92% | Val loss 1.3392 acc 49.76% | 24.2s
+  -> Saved best checkpoint (val_acc=49.76%)
+Epoch 010/50 | Train loss 0.6009 acc 54.06% | Val loss 1.3529 acc 49.51% | 25.6s
+Epoch 011/50 | Train loss 0.5914 acc 54.26% | Val loss 1.3768 acc 49.48% | 25.7s
+Epoch 012/50 | Train loss 0.5881 acc 54.96% | Val loss 1.2655 acc 53.02% | 23.4s
+  -> Saved best checkpoint (val_acc=53.02%)
+Epoch 013/50 | Train loss 0.5648 acc 55.93% | Val loss 1.5373 acc 47.28% | 26.9s
+Epoch 014/50 | Train loss 0.5530 acc 56.95% | Val loss 1.3143 acc 51.94% | 26.7s
+Epoch 015/50 | Train loss 0.5404 acc 57.49% | Val loss 1.2195 acc 53.69% | 25.5s
+  -> Saved best checkpoint (val_acc=53.69%)
+Epoch 016/50 | Train loss 0.5272 acc 57.90% | Val loss 1.6100 acc 47.98% | 26.3s
+Epoch 017/50 | Train loss 0.5061 acc 59.35% | Val loss 1.3672 acc 50.13% | 26.1s
+Epoch 018/50 | Train loss 0.5083 acc 59.31% | Val loss 1.2588 acc 53.94% | 24.5s
+  -> Saved best checkpoint (val_acc=53.94%)
+Epoch 019/50 | Train loss 0.5014 acc 59.61% | Val loss 1.2307 acc 54.83% | 25.8s
+  -> Saved best checkpoint (val_acc=54.83%)
+Epoch 020/50 | Train loss 0.5001 acc 60.35% | Val loss 1.1662 acc 56.81% | 26.5s
+  -> Saved best checkpoint (val_acc=56.81%)
+Epoch 021/50 | Train loss 0.4870 acc 60.41% | Val loss 1.3075 acc 52.61% | 25.8s
+Epoch 022/50 | Train loss 0.4756 acc 61.46% | Val loss 1.1769 acc 57.37% | 25.0s
+  -> Saved best checkpoint (val_acc=57.37%)
+Epoch 023/50 | Train loss 0.4793 acc 61.94% | Val loss 1.3115 acc 55.00% | 27.4s
+Epoch 024/50 | Train loss 0.4591 acc 62.44% | Val loss 1.2711 acc 54.61% | 26.2s
+Epoch 025/50 | Train loss 0.4540 acc 62.36% | Val loss 1.2485 acc 55.36% | 24.4s
+Epoch 026/50 | Train loss 0.4559 acc 62.92% | Val loss 1.2603 acc 54.86% | 26.4s
+Epoch 027/50 | Train loss 0.4512 acc 62.80% | Val loss 1.1894 acc 57.29% | 26.5s
+Epoch 028/50 | Train loss 0.4426 acc 63.51% | Val loss 1.2418 acc 56.17% | 23.8s
+Epoch 029/50 | Train loss 0.4420 acc 64.19% | Val loss 1.1291 acc 59.52% | 26.2s
+  -> Saved best checkpoint (val_acc=59.52%)
+Epoch 030/50 | Train loss 0.4271 acc 64.78% | Val loss 1.1173 acc 59.38% | 26.3s
+Epoch 031/50 | Train loss 0.4288 acc 64.48% | Val loss 1.2007 acc 56.87% | 24.3s
+Epoch 032/50 | Train loss 0.4248 acc 64.96% | Val loss 1.1156 acc 60.04% | 26.1s
+  -> Saved best checkpoint (val_acc=60.04%)
+Epoch 033/50 | Train loss 0.4182 acc 65.01% | Val loss 1.1031 acc 60.43% | 25.9s
+  -> Saved best checkpoint (val_acc=60.43%)
+Epoch 034/50 | Train loss 0.4030 acc 65.80% | Val loss 1.1019 acc 60.30% | 24.4s
+Epoch 035/50 | Train loss 0.4020 acc 66.39% | Val loss 1.1180 acc 60.27% | 25.7s
+Epoch 036/50 | Train loss 0.4145 acc 65.44% | Val loss 1.1091 acc 61.24% | 25.6s
+  -> Saved best checkpoint (val_acc=61.24%)
+Epoch 037/50 | Train loss 0.4023 acc 66.31% | Val loss 1.1207 acc 60.52% | 24.8s
+Epoch 038/50 | Train loss 0.3971 acc 66.46% | Val loss 1.1289 acc 60.94% | 25.5s
+Epoch 039/50 | Train loss 0.3893 acc 66.68% | Val loss 1.0987 acc 61.30% | 24.1s
+  -> Saved best checkpoint (val_acc=61.30%)
+Epoch 040/50 | Train loss 0.3924 acc 67.14% | Val loss 1.1224 acc 60.85% | 25.1s
+Epoch 041/50 | Train loss 0.3840 acc 67.17% | Val loss 1.1092 acc 61.35% | 26.6s
+  -> Saved best checkpoint (val_acc=61.35%)
+Epoch 042/50 | Train loss 0.3918 acc 66.92% | Val loss 1.1136 acc 61.19% | 26.3s
+Epoch 043/50 | Train loss 0.3860 acc 67.84% | Val loss 1.1116 acc 61.52% | 25.5s
+  -> Saved best checkpoint (val_acc=61.52%)
+Epoch 044/50 | Train loss 0.3893 acc 67.44% | Val loss 1.1088 acc 61.74% | 27.1s
+  -> Saved best checkpoint (val_acc=61.74%)
+Epoch 045/50 | Train loss 0.3861 acc 66.93% | Val loss 1.0932 acc 62.11% | 26.4s
+  -> Saved best checkpoint (val_acc=62.11%)
+Epoch 046/50 | Train loss 0.3834 acc 67.45% | Val loss 1.1054 acc 61.63% | 24.5s
+Epoch 047/50 | Train loss 0.3814 acc 67.21% | Val loss 1.0994 acc 61.99% | 26.4s
+Epoch 048/50 | Train loss 0.3809 acc 67.48% | Val loss 1.1065 acc 61.52% | 27.0s
+Epoch 049/50 | Train loss 0.3863 acc 67.46% | Val loss 1.0988 acc 61.63% | 25.1s
+Epoch 050/50 | Train loss 0.3899 acc 66.91% | Val loss 1.0982 acc 61.60% | 25.0s
+
+Training complete. Best val accuracy: 62.11%

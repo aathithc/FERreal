@@ -1,0 +1,29 @@
+Device: cuda
+Classes (7): ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+Train: 28709 | Val: 3589
+Epoch 001/15 | Train loss 1.3176 acc 50.26% | Val loss 0.9918 acc 62.52% | 1009.1s
+  -> Saved best checkpoint (val_acc=62.52%)
+Epoch 002/15 | Train loss 0.9878 acc 62.56% | Val loss 0.9507 acc 64.03% | 1024.2s
+  -> Saved best checkpoint (val_acc=64.03%)
+Epoch 003/15 | Train loss 0.8626 acc 66.86% | Val loss 0.9937 acc 63.22% | 1024.2s
+Epoch 004/15 | Train loss 0.7591 acc 70.50% | Val loss 0.8881 acc 67.68% | 1023.8s
+  -> Saved best checkpoint (val_acc=67.68%)
+Epoch 005/15 | Train loss 0.6305 acc 75.04% | Val loss 0.8716 acc 68.96% | 1026.1s
+  -> Saved best checkpoint (val_acc=68.96%)
+Epoch 006/15 | Train loss 0.5375 acc 78.92% | Val loss 0.9301 acc 68.40% | 1026.0s
+Epoch 007/15 | Train loss 0.4230 acc 83.53% | Val loss 0.9947 acc 70.24% | 1027.1s
+  -> Saved best checkpoint (val_acc=70.24%)
+Epoch 008/15 | Train loss 0.3217 acc 87.23% | Val loss 1.0876 acc 69.60% | 1025.7s
+Epoch 009/15 | Train loss 0.2276 acc 91.19% | Val loss 1.1350 acc 69.94% | 1026.4s
+Epoch 010/15 | Train loss 0.1569 acc 94.00% | Val loss 1.3171 acc 69.99% | 1025.8s
+Epoch 011/15 | Train loss 0.1134 acc 95.68% | Val loss 1.3675 acc 70.55% | 1026.1s
+  -> Saved best checkpoint (val_acc=70.55%)
+Epoch 012/15 | Train loss 0.0865 acc 96.91% | Val loss 1.4115 acc 70.47% | 1024.9s
+Epoch 013/15 | Train loss 0.0706 acc 97.53% | Val loss 1.4222 acc 70.91% | 1024.7s
+  -> Saved best checkpoint (val_acc=70.91%)
+Epoch 014/15 | Train loss 0.0538 acc 98.13% | Val loss 1.4346 acc 71.16% | 1026.0s
+  -> Saved best checkpoint (val_acc=71.16%)
+Epoch 015/15 | Train loss 0.0479 acc 98.32% | Val loss 1.4328 acc 71.33% | 1025.7s
+  -> Saved best checkpoint (val_acc=71.33%)
+
+Training complete. Best val accuracy: 71.33%
