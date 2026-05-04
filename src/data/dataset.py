@@ -30,37 +30,40 @@ class FER2013Dataset(Dataset):
         self.transform = transform
 
         split_dir = self.root / split
-        import os
-        import csv
-        import warnings
-        from pathlib import Path
-        from typing import List, Tuple, Union
+        if not split_dir.exists():
+            raise FileNotFoundError(
+                f"Split directory not found: {split_dir}\n"
+                "Run scripts/download_data.sh first."
+            )
 
-        from PIL import Image
-        import numpy as np
-        import torch
-        from torch.utils.data import Dataset
+        # Infer class list from directory names — sorted for determinism.
+        self.classes = sorted(
+            d.name for d in split_dir.iterdir() if d.is_dir()
+        )
+        self.class_to_idx = {cls: i for i, cls in enumerate(self.classes)}
 
+        self.samples: list[tuple[Path, int]] = []
+        for cls in self.classes:
+            cls_dir = split_dir / cls
+            for img_path in cls_dir.iterdir():
+                if img_path.suffix.lower() in (".jpg", ".jpeg", ".png"):
+                    self.samples.append((img_path, self.class_to_idx[cls]))
 
-        class FER2013Dataset(Dataset):
-            """FER-2013 dataset loader.
+    def __len__(self) -> int:
+        return len(self.samples)
 
-            Two supported modes:
-              - CSV mode: if a `fer2013.csv` file is present under `root` (recursively),
-                the dataset will be loaded from the CSV. The CSV contains columns
-                `emotion`, `pixels`, `Usage` (values: Training, PublicTest, PrivateTest).
-              - Folder mode (backwards compatible): expects
-                `root/train/<class>/*.jpg` and `root/test/<class>/*.jpg`.
+    def __getitem__(self, idx: int) -> tuple[torch.Tensor, int]:
+        img_path, label = self.samples[idx]
+        img = Image.open(img_path).convert("L")  # always load as grayscale
 
-            In CSV mode the canonical class order is used:
-                ['angry','disgust','fear','happy','sad','surprise','neutral']
-            """
+        if self.transform is not None:
+            img = self.transform(img)
 
-            CANONICAL_CLASSES = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+        return img, label
 
-            def __init__(self, root: str, split: str = "train", transform=None):
-                """
-                Args:
-                    root:      Path to the fer2013 data directory (contains train/ and test/ or fer2013.csv).
-                    split:     One of 'train', 'val', 'test'. In CSV mode these map to
-                         
+    def get_class_counts(self) -> list[int]:
+        """Returns per-class sample counts; index == class index."""
+        counts = [0] * len(self.classes)
+        for _, label in self.samples:
+            counts[label] += 1
+        return counts

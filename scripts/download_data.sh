@@ -22,13 +22,14 @@ fi
 
 mkdir -p "$DEST"
 
-echo "Downloading FER-2013 (CSV version)..."
-# Use the CSV dataset which contains fer2013.csv (deadskull7/fer2013)
-kaggle datasets download -d deadskull7/fer2013 -p "$DEST"
+echo "Downloading FER-2013..."
+kaggle datasets download -d msambare/fer2013 -p "$DEST"
 
 echo "Unzipping..."
 unzip -q "$DEST/fer2013.zip" -d "$DEST"
 rm "$DEST/fer2013.zip"
 
 echo "Done. Dataset available at ./$DEST"
-echo "If t
+echo "Expected structure:"
+echo "  $DEST/train/<class>/*.jpg"
+echo "  $DEST/test/<class>/*.jpg"
